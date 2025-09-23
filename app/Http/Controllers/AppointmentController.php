@@ -15,10 +15,16 @@ class AppointmentController extends Controller
         $request->validate([
             'doctor_id' => 'required|exists:users,id',
             'patient_id' => 'required|exists:patients,id',
-            'date' => 'required|date',
-            'time' => 'required',
+            'scheduled_at' => 'required|date',
+            'notes' => 'nullable|string',
+            'status' => 'sometimes|string'
         ]);
-        return Appointment::create($request->all());
+        $appointment = Appointment::create($request->all());
+
+        $appointment->load(['doctor', 'patient']);
+   
+        return $appointment;
+        
     }
 
     public function show(Appointment $appointment) {
