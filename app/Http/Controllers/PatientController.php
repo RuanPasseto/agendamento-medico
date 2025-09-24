@@ -7,26 +7,20 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $patients = Patient::orderBy('name')->get();
         return view('patients.index', compact('patients'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('patients.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -41,12 +35,10 @@ class PatientController extends Controller
         return redirect()->route('pacientes.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Patient $paciente)
     {
-        // return view('patients.show', compact('paciente'));
+
     }
 
     public function edit(Patient $paciente)
