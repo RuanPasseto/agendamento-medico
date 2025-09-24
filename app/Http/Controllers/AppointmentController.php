@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Mostra a lista de agendamentos do médico logado.
-     */
+
     public function index()
     {
         $appointments = Appointment::where('doctor_id', Auth::id())
@@ -22,18 +20,14 @@ class AppointmentController extends Controller
         return view('dashboard', compact('appointments'));
     }
 
-    /**
-     * Mostra o formulário para criar um novo agendamento.
-     */
+
     public function create()
     {
         $patients = Patient::orderBy('name')->get();
         return view('appointments.create', compact('patients'));
     }
 
-    /**
-     * Salva o novo agendamento no banco de dados.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -50,9 +44,7 @@ class AppointmentController extends Controller
         return redirect()->route('dashboard')->with('success', 'Agendamento criado com sucesso!');
     }
 
-    /**
-     * Mostra os detalhes de um agendamento específico.
-     */
+
     public function show(Appointment $appointment)
     {
         if ($appointment->doctor_id !== Auth::id()) {
@@ -61,9 +53,7 @@ class AppointmentController extends Controller
         return view('appointments.show', compact('appointment'));
     }
 
-    /**
-     * Mostra o formulário para editar um agendamento.
-     */
+
     public function edit(Appointment $appointment)
     {
         if ($appointment->doctor_id !== Auth::id()) {
