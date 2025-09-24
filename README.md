@@ -1,61 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Agendamento de Consultas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este é um sistema de agendamento de consultas médicas desenvolvido como um teste prático de programação PHP com Laravel.
 
-## About Laravel
+## Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Autenticação de Médicos (Login e Registo).
+* Gestão completa (CRUD) de Pacientes.
+* Gestão completa (CRUD) de Agendamentos para o médico logado.
+* API REST para consultar os recursos da aplicação (testável via Postman).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Backend:** PHP, Laravel
+* **Frontend:** Blade
+* **Base de Dados:** MySQL
+* **Ambiente de Desenvolvimento:** Docker com Laravel Sail
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requisitos para Instalação
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Composer
+* Node.js e NPM
+* Docker Desktop
+* WSL 2 (para utilizadores Windows)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Instalação e Execução (com Docker)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Este projeto foi configurado para correr com **Laravel Sail**, a interface oficial do Laravel para o Docker. Siga os passos abaixo:
 
-### Premium Partners
+**1. Clonar o Repositório**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone [https://github.com/RuanPasseto/agendamento-medico.git]
+cd agendamento-medico
+```
 
-## Contributing
+**2. Instalar as Dependências do PHP**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+```
 
-## Code of Conduct
+**3. Configurar o Ficheiro de Ambiente**
+Copie o ficheiro de exemplo. O ficheiro `.env` já vem pré-configurado para o Sail.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+**4. Iniciar os Contentores do Sail**
+Este comando irá baixar as imagens necessárias e iniciar o servidor web e a base de dados. A primeira execução pode demorar alguns minutos. **Execute este comando a partir do WSL (no Windows) ou do seu terminal padrão (no macOS/Linux).**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+./vendor/bin/sail up -d
+```
 
-## License
+**5. Instalar as Dependências do Frontend**
+Use o Sail para correr o NPM dentro do contentor.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+./vendor/bin/sail npm install
+```
+
+**6. Correr as Migrations**
+Este comando criará a estrutura da base de dados dentro do contentor MySQL.
+
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+**7. Pronto!**
+A sua aplicação estará acessível em `http://localhost`.
+
+O servidor de frontend para compilação em tempo real pode ser iniciado com:
+
+```bash
+./vendor/bin/sail npm run dev
+```
+
+---
+
+## Controlo de Versão (Git)
+
+O teste pede para usar o Git. Se ainda não o fez, agora é a hora de fazer o *commit* do seu trabalho.
+
+```bash
+# Inicia um repositório Git (se ainda não o fez)
+git init
+
+# Adiciona todos os ficheiros ao stage
+git add .
+
+# Faz o seu primeiro commit
+git commit -m "Versão inicial do sistema de agendamento completa"
+```
+
+---
+
+## Comandos Úteis do Sail
+
+* **Iniciar o ambiente:** `./vendor/bin/sail up -d`
+* **Parar o ambiente:** `./vendor/bin/sail down`
+* **Executar qualquer comando Artisan:** `./vendor/bin/sail artisan <comando>`
+* **Aceder ao terminal do contentor:** `./vendor/bin/sail shell`
