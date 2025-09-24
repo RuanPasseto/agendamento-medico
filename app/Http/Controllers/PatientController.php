@@ -7,22 +7,71 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function index() { return Patient::all(); }
-
-    public function store(Request $request) {
-        return Patient::create($request->all());
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $patients = Patient::orderBy('name')->get();
+        return view('patients.index', compact('patients'));
     }
 
-    public function show(Patient $patient) { return $patient; }
-
-    public function update(Request $request, Patient $patient) {
-        $patient->update($request->all());
-        return $patient;
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('patients.create');
     }
 
-    public function destroy(Patient $patient) {
-        $patient->delete();
-        return response()->json(null, 204);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:patients,email',
+            'cpf' => 'required|string|unique:patients,cpf',
+            'phone' => 'required|string',
+        ]);
+
+        Patient::create($request->all());
+
+        return redirect()->route('pacientes.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Patient $paciente)
+    {
+        // return view('patients.show', compact('paciente'));
+    }
+
+    public function edit(Patient $paciente)
+    {
+        return view('patients.edit', compact('paciente'));
+    }
+
+    public function update(Request $request, Patient $paciente)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:patients,email,' . $paciente->id,
+            'cpf' => 'required|string|unique:patients,cpf,' . $paciente->id,
+            'phone' => 'required|string',
+        ]);
+        
+        $paciente->update($request->all());
+
+        return redirect()->route('pacientes.index');
+    }
+
+    public function destroy(Patient $paciente)
+    {
+        $paciente->delete();
+        return redirect()->route('pacientes.index');
     }
 }
 

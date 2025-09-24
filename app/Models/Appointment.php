@@ -11,6 +11,15 @@ class Appointment extends Model
 
     protected $fillable = ['doctor_id', 'patient_id', 'scheduled_at', 'status', 'notes'];
 
-    public function doctor() { return $this->belongsTo(User::class, 'doctor_id'); }
-    public function patient() { return $this->belongsTo(Patient::class); }
+    protected $casts = [
+        'scheduled_at' => 'datetime',
+    ];
+
+    public function doctor() {
+        return $this->belongsTo(\App\Models\User::class, 'doctor_id');
+    }
+
+    public function patient() {
+        return $this->belongsTo(Patient::class);
+    }
 }
